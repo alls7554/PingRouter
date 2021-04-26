@@ -1,0 +1,22 @@
+{
+  "name": "myapp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "mime": "^1.4.1",
+    "moment": "^2.29.1",
+    "morgan": "~1.9.1",
+    "net-ping": "^1.2.3",
+    "nodejs-traceroute": "^1.2.0",
+    "socket.io": "^4.0.1",
+    "xlsx": "^0.16.9"
+  }
+}

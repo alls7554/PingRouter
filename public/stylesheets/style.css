@@ -1,0 +1,49 @@
+body {
+  display: flex;
+  flex-wrap: nowrap;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  height: 100vh;
+  height: -webkit-fill-available;
+  overflow-x: auto;
+}
+body > * {
+  flex-shrink: 0;
+  min-height: -webkit-fill-available;
+}
+
+a {
+  color: #00b7ff;
+}
+
+.container-md {
+  padding-top: 50px !important;
+  height: 100% !important;
+}
+
+#side-bar {
+  width: 280px;
+  float: left;
+}
+
+.input-row {
+  margin-bottom: 10px;
+}
+
+.ping_textLog {
+  height: 35vh !important;
+  overflow-y: auto;
+}
+
+.tr_log {
+  height: 35vh !important;
+  overflow-y: auto;
+}
+
+.bi {
+  vertical-align: -0.125em;
+  pointer-events: none;
+  fill: currentColor;
+}
+.btn {
+  width: 100% !important;
+}
