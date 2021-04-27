@@ -81,7 +81,7 @@
 
     <!-- Main Contents -->
     <div class='container-md'>
-      <div class="row"> 
+      <div class="row text-log"> 
         <div class='col-md-6' id="pingLog">
           <li class="list-group-item list-group-item-dark"><span>Ping</span></li>
           <div class='ping_textLog'>
@@ -204,14 +204,12 @@
       addData(myChart, icmp_seq, time, avg);
     });
 
-    // myapp.on('SAVE', (file) => {
-    //   console.log(file)
-    //   XLSX.writeFile(file, 'result.xlsx');
-    // })
-
     $('#reset').click(() => {
       resetDisabled();
       doc.getElementById('Address').value = '';
+      doc.getElementById('Hours').value = '';
+      doc.getElementById('Minutes').value = '';
+      doc.getElementById('Seconds').value = '';
       $('.pingLog').remove();
       $('.pingResultLog').remove();
       $('.trLog').remove();
@@ -258,7 +256,7 @@
 
     $('#save').click(() => {
       location.href = `/download/${myId}`;
-
+      saveDisabled();
     })
 
     myapp.on("URID", id => {

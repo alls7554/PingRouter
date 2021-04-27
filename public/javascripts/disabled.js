@@ -1,5 +1,6 @@
 startDisabled = () => {
   $('#start').attr('disabled', true);
+  $('#Address').attr('disabled', true);
   $('#Hours').attr('disabled', true);
   $('#Minutes').attr('disabled', true);
   $('#Seconds').attr('disabled', true);
@@ -8,6 +9,7 @@ startDisabled = () => {
 }
 
 resetDisabled = () => {
+  $('#Address').attr('disabled', false);
   $('#start').attr('disabled', false);
   $('#reset').attr('disabled', true);
   $('#save').attr('disabled', true);
@@ -42,4 +44,8 @@ timeResetDisabled = () => {
   $('#Seconds').attr('disabled', false);
   $('#timeSet').attr('disabled', false);
   $('#timeReset').attr('disabled', true);
+}
+
+saveDisabled = () => {
+  $('#save').attr('disabled', true);
 }

@@ -20,6 +20,10 @@ a {
   height: 100% !important;
 }
 
+.text-log {
+  margin-bottom: 10px;
+}
+
 #side-bar {
   width: 280px;
   float: left;
