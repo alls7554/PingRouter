@@ -30,22 +30,22 @@ let options = {
       }]
   },
   options: {
-      scales: {
-          y: {
-              beginAtZero: true
-          }
+    scales: {
+      y: {
+        beginAtZero: true
       }
+    }
   }
 }
 
-function addData(chart, label, time, avg) {
+addData = (chart, label, time, avg) => {
   chart.data.labels.push(label);
   chart.data.datasets[0].data.push(time);
   chart.data.datasets[1].label = avg + 'ms (AVG)';
   chart.update();
 }
 
-function resetData(chart){
+resetData = (chart) => {
   chart.data.labels = new Array();
   chart.data.datasets[0].data = new Array();
   chart.data.datasets[1].label = 'Time(AVG)';

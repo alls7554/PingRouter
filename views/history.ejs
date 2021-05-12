@@ -319,19 +319,32 @@
     paging = (totalData, dataPerPage, pageCount, currentPage) => {
       $('.page-item').remove();
 
+      // console.log('totalData : ' + totalData);
+      // console.log('dataPerPage : ' + dataPerPage)
+      // console.log('pageCount : ' + pageCount)
+      // console.log('currentPage : ' + currentPage)
+
       let totalPage = Math.ceil(totalData/dataPerPage);
       let pageGroup = Math.ceil(currentPage/pageCount);
 
-      if(pageCount > 5) pageCount = 5;
+      // console.log('totalPage : ' + totalPage);
+      // console.log('pageGroup : ' + pageGroup);
+
+      // if(pageCount > 5) pageCount = 5;
 
       let last = pageGroup * pageCount;
 
       if(last > totalPage)
         last = totalPage;
 
-      let first = last - (pageCount-1);
+      let first = ((pageGroup-1) * pageCount)+1;
       let next = last+1;
       let prev = first-1;
+
+      // console.log('first : ' + first);
+      // console.log('last : ' + last);
+      // console.log('prev : ' + prev);
+      // console.log('next : ' + next);
 
       if(first < 1) first = 1;
 
