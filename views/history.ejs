@@ -186,7 +186,7 @@
         dataType: 'json',
         success: (data) => {
           loadData(data);
-          paging(data.rows.length, data.dataPerPage, 5, 1)
+          paging(data.rows.length, data.dataPerPage, data.page_num, 1)
         }
       });
     });
@@ -210,7 +210,7 @@
         dataType: 'json',
         success: (data) => {
           loadData(data);
-          paging(data.rows.length, data.dataPerPage, 5, 1)
+          paging(data.rows.length, data.dataPerPage, data.page_num, 1)
         }
       });
     });
@@ -232,7 +232,7 @@
           $('.pingResultLog').remove();
           $('.trLog').remove();
           $('.trResultlog').remove();
-          $('#save').attr('disabled', false)
+          $('#save').attr('disabled', false);
           myChart.update('reset');
           resetData(myChart);
 

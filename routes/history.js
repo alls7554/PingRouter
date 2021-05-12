@@ -86,7 +86,11 @@ router.get('/date/:period', (req, res, next) => {
     if(err){
       throw err;
     }
-    res.send({rows:rows, log_num:dataPerPage, page:1});
+
+    let page_num = parseInt(rows.length/dataPerPage);
+    if(rows.length%dataPerPage > 0) page_num++;
+
+    res.send({rows:rows, page:1, page_num:page_num, log_num:dataPerPage});
   });
 });
 
@@ -116,7 +120,10 @@ router.get('/:period/search/:address', (req, res, next) => {
     if(err){
       throw err;
     }
-    res.send({rows:rows, log_num:dataPerPage, page:1});
+    let page_num = parseInt(rows.length/dataPerPage);
+    if(rows.length%dataPerPage > 0) page_num++;
+
+    res.send({rows:rows, page:1, page_num:page_num, log_num:dataPerPage});
   });
 });
 
@@ -137,7 +144,11 @@ router.get('/search/:address', (req,res,next) => {
     if(err){
       throw err;
     }
-    res.send({rows:rows, log_num:dataPerPage, page:1});
+
+    let page_num = parseInt(rows.length/dataPerPage);
+    if(rows.length%dataPerPage > 0) page_num++;
+
+    res.send({rows:rows, page:1, page_num:page_num, log_num:dataPerPage});
   })
 });
 
