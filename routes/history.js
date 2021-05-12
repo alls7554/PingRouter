@@ -42,6 +42,10 @@ router.get('/pages/:page', (req, res, next) => {
   let sql = `SELECT address, start_time, end_time FROM time WHERE session_id = '${reqSessionId}'`
   let page = req.params.page;
 
+  if(req.query.address){
+    sql+=` AND address LIKE '%${req.query.address}%'`
+  }
+
   if(req.query.dateFilter == 'week'){
     let lastweek = lastWeek();
     sql += ` AND start_time <= '${lastweek}';`
@@ -51,6 +55,8 @@ router.get('/pages/:page', (req, res, next) => {
   } else{
     sql += `;`;
   }
+
+  console.log(sql)
 
   db.all(sql, [], (err, rows) => {
     if(err){
@@ -96,7 +102,7 @@ router.get('/date/:period', (req, res, next) => {
 
 
 // date Filter + address search
-router.get('/:period/search/:address', (req, res, next) => {
+router.get('/date/:period/search/:address', (req, res, next) => {
   let reqSessionId = findClientSessionId(req);
   let sql = 'SELECT address, start_time, end_time FROM time WHERE';
 

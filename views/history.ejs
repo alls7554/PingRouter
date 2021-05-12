@@ -147,7 +147,7 @@
     let timelines = doc.getElementsByClassName('log');
     let periods = doc.getElementsByClassName('period');
     let pagination = doc.getElementsByClassName('page-item');
-
+    let address;
     let dateFilter;
 
     // Pagination
@@ -160,7 +160,7 @@
       $.ajax({
         type: 'GET',
         url: `/history/pages/${page}`,
-        data: {dateFilter},
+        data: {dateFilter, address},
         dataType: 'json',
         success: (data) => {
           loadData(data);
@@ -186,14 +186,14 @@
         dataType: 'json',
         success: (data) => {
           loadData(data);
-          paging(data.rows.length, data.dataPerPage, data.page_num, 1)
+          paging(data.rows.length, data.log_num, data.page_num, 1)
         }
       });
     });
 
     // IP address search
     $('#search').on('propertychange change paste input', () => {
-      let address = $('#search').val();
+      address = $('#search').val();
       let url = address;
       let spaceExp = new RegExp(/\s/g);
 
@@ -210,7 +210,7 @@
         dataType: 'json',
         success: (data) => {
           loadData(data);
-          paging(data.rows.length, data.dataPerPage, data.page_num, 1)
+          paging(data.rows.length, data.log_num, data.page_num, 1)
         }
       });
     });
@@ -319,8 +319,15 @@
 
     paging = (totalData, dataPerPage, pageCount, currentPage) => {
       $('.page-item').remove();
+      console.log('totalData:'+totalData)
+      console.log('dataPerPage:'+dataPerPage)
       let totalPage = Math.ceil(totalData/dataPerPage);
       let pageGroup = Math.ceil(currentPage/pageCount);
+      
+      console.log('totalPage : ' + totalPage)
+      console.log('pageGroup : ' + pageGroup)
+
+      if(pageCount > 5) pageCount = 5;
 
       let last = pageGroup * pageCount;
 
@@ -330,6 +337,11 @@
       let first = last - (pageCount-1);
       let next = last+1;
       let prev = first-1;
+
+      console.log('first : '+first)
+      console.log('last : '+last)
+      console.log('prev : '+prev)
+      console.log('next : '+next)
 
       if(first < 1) first = 1;
 
