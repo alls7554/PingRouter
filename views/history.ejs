@@ -199,7 +199,6 @@
 
       if(address == '' || spaceExp.exec(address) != null) {
         url = '/history/search/all';
-        console.log(url)
       } else{
         url = `/history/search/${address}`;
       }
@@ -319,13 +318,9 @@
 
     paging = (totalData, dataPerPage, pageCount, currentPage) => {
       $('.page-item').remove();
-      console.log('totalData:'+totalData)
-      console.log('dataPerPage:'+dataPerPage)
+
       let totalPage = Math.ceil(totalData/dataPerPage);
       let pageGroup = Math.ceil(currentPage/pageCount);
-      
-      console.log('totalPage : ' + totalPage)
-      console.log('pageGroup : ' + pageGroup)
 
       if(pageCount > 5) pageCount = 5;
 
@@ -337,11 +332,6 @@
       let first = last - (pageCount-1);
       let next = last+1;
       let prev = first-1;
-
-      console.log('first : '+first)
-      console.log('last : '+last)
-      console.log('prev : '+prev)
-      console.log('next : '+next)
 
       if(first < 1) first = 1;
 

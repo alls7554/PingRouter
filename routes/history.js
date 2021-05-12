@@ -56,8 +56,6 @@ router.get('/pages/:page', (req, res, next) => {
     sql += `;`;
   }
 
-  console.log(sql)
-
   db.all(sql, [], (err, rows) => {
     if(err){
       throw err;
