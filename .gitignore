@@ -1,11 +1,24 @@
 # DS_Store
 .DS_Store
 
+# .env
+.env
+
+# .vscode/
+.vscode/
+
+# sessions
+sessions
+
 # Excel file
 *.xlsx
 
 #package-lock
 package-lock.json
+
+#Database
+data/
+database/
 
 # Logs
 logs

@@ -41,7 +41,7 @@ let options = {
 function addData(chart, label, time, avg) {
   chart.data.labels.push(label);
   chart.data.datasets[0].data.push(time);
-  chart.data.datasets[1].label = avg + ' (AVG)';
+  chart.data.datasets[1].label = avg + 'ms (AVG)';
   chart.update();
 }
 

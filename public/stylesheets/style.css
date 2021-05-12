@@ -20,6 +20,10 @@ a {
   height: 100% !important;
 }
 
+.myContainer {
+  height: 100vh !important;
+}
+
 .text-log {
   margin-bottom: 10px;
 }
@@ -34,12 +38,12 @@ a {
 }
 
 .ping_textLog {
-  height: 35vh !important;
+  height: 22vh !important;
   overflow-y: auto;
 }
 
 .tr_log {
-  height: 35vh !important;
+  height: 22vh !important;
   overflow-y: auto;
 }
 
@@ -50,4 +54,21 @@ a {
 }
 .btn {
   width: 100% !important;
+}
+
+.table {
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+#myChart {
+  width: 100%;
+}
+
+.pagination {
+  justify-content: center !important;
+}
+
+.table-area {
+  min-height: 707px;
 }
