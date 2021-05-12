@@ -16,9 +16,9 @@
 
 1. Enter the IP address in the left sidebar.
 2. If you only want to measure a certain amount of time, you can set Timer.
-3. Let's Start!
-4. If you want to save it as an Excel file, click 'S A V E' button
-5. If you want to check your past records, click 'Show History' button
+3. If you want to save it as an Excel file, click 'S A V E' button
+4. If you want to check your past records, click 'Show History' button
+5. Let's Start!
 
 ## Release Note
 
