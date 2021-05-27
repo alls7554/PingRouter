@@ -26,12 +26,12 @@
            ├── lib/                          - 서버단에서 이용하는 특정 기능을 가지고 있는 파일을 모아둔 폴더
            │     ├── deepCopy.js             - 깊은 복사를 위한 js 파일
            │     ├── getSessionId.js         - socket통신 시 세션 ID를 얻기 위한 js 파일
-           │     └── logFrame.js             -
+           │     └── logFrame.js             - DB에 저장할 object를 return하는 js 파일
            │
-           ├── model/                        -
-           │     ├──
-           │     ├──
-           │     └──
+           ├── model/                        - DB연산에 사용되는 파일을 모아둔 폴더
+           │     ├── ping.js                 - ping 기록을 저장하고 불러오는 js 파일 (mongoDB)
+           │     ├── time.js                 - 테스트의 시작과 끝 시간을 저장하고 불러오는 js 파일(sqlite3)
+           │     └── tracerouter.js          - tracerouter 기록을 저장하고 불러오는 js 파일 (mongoDB)
            │
            ├── public/                       - css, javascript등 static파일이 모여 있는 폴더
            │     ├── stylesheets/            - stylesheet를 모아둔 폴더
@@ -53,7 +53,9 @@
            │     ├── index.js                - 메인 페이지의 라우팅
            │     └── history.js              - History 페이지의 라우팅
            │
-           ├── services/                     -
+           ├── services/                     - 특정 행위들을 하나로 취합한 파일을 모아둔 폴더
+           │     ├── database.js             - model 폴더의 파일들을 하나로 취합시킨 database.js 파일
+           │     └── socket.io.js            - socket통신에 사용되는 function을 하나로 모아둔 js 파일
            │
            └── views/                        - view 폴더
                  ├── index.ejs               - 메인 페이지
