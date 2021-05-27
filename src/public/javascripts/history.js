@@ -76,6 +76,12 @@ $('#search').on('propertychange change paste input', () => {
 
 // specific log
 $(document).on("click", ".log", (timeline) => {
+
+  // 이미 클릭되어 있는 로그를 누를 때 반응 죽이기
+  if($(timeline.currentTarget).hasClass('table-danger')){
+    return;
+  } 
+
   let startTime = timeline.currentTarget.childNodes[5].childNodes[0].innerText;
 
   $(timeline.currentTarget).siblings('.log').removeClass('table-danger');
