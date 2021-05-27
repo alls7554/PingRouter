@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "nodemon ./bin/www",
+    "start prod" : "nodemon ./bin/www PRODUCTION"
   },
   "dependencies": {
+    "async": "^3.2.0",
     "connect-sqlite3": "^0.9.11",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -20,7 +22,23 @@
     "morgan": "~1.9.1",
     "net-ping": "^1.2.3",
     "nodejs-traceroute": "^1.2.0",
-    "socket.io": "^4.0.1",
+    "socket.io": "^4.1.2",
     "sqlite3": "^5.0.2"
-  }
+  },
+  "description": "### You must `npm install` after cloning.",
+  "main": "app.js",
+  "bin": {
+    "myapp": "www.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alls7554/PingRouter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alls7554/PingRouter/issues"
+  },
+  "homepage": "https://github.com/alls7554/PingRouter#readme"
 }

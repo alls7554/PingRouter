@@ -43,7 +43,7 @@ let excelHandler = {
   }
 }
 
-download = (startTime, data) => {
+download = (startTime, data, imageURL) => {
 
   let pingLogs = [],
       trLogs = [];

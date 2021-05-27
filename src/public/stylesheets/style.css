@@ -63,6 +63,7 @@ a {
 
 #myChart {
   width: 100%;
+  height: 80vh;
 }
 
 .pagination {
@@ -71,4 +72,10 @@ a {
 
 .table-area {
   min-height: 707px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
 }

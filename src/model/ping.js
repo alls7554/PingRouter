@@ -1,20 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require('../config/mongoDB');
 
 const pinglogSchema = new mongoose.Schema({
+  idx : { type: Number },
   session_id: { type: String },
   target: { type: String },
   start_time: { type: String },
   log: { type: Array },
-  summaryLog : { type: Object },
-  graph: { type: String}
+  summaryLog : { type: Object }
 });
 
-var Pinglogmodel = mongoose.model('pinglog', pinglogSchema);
+let Pinglogmodel = mongoose.model('pinglog', pinglogSchema);
 
 // Create
 pinglogSchema.statics.create = (payload) => {
   const log = new Pinglogmodel(payload);
-  // log.start_time = currentTime(log.start_time);
 
   console.log('Save On MongoDB')
   return log.save();

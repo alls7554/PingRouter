@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6' crossorigin='anonymous'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.js"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js" integrity="sha512-wBcFatf7yQavHQWtf4ZEjvtVz4XkYISO96hzvejfh18tn3OrJ3sPBppH0B6q/1SHB4OKHaNNUKqOmsiTGlOM/g==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/myTimer.js"></script>
+    <script src="/javascripts/myChart.js"></script>
+    <script src="/javascripts/disabled.js"></script>
+    <script src="/javascripts/download.js"></script>
+
+    <title><%= title %></title>
+  </head>
+  <body>
+    <!-- Side Bar -->
+    <div id='side-bar' class="d-flex flex-column p-3 text-white bg-dark">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <svg class="bi me-2" width="40" height="32">
+          <use xlink:href="#bootstrap"/>
+        </svg>
+        <span class="fs-4"><%= title %></span>
+      </a>
+      <hr>
+      <div class="row">
+        <h1><%= title %></h1>
+        <p>Welcome to <%= title %></p>
+      </div>
+      <div class='input-row col-md-12'>
+        <input type='text' id="Address" class='form-control' placeholder="Enter IP Address(1.2.3.4)">
+      </div>
+      <div class='row input-row'>
+        <div class='col-md-6'>
+          <button type="button" class='col-auto btn btn-primary' id='start'>S T A R T</button>
+        </div>
+        <div class='col-md-6'>
+          <button type="button" class='btn btn-danger' id='stop' disabled='true'>S T O P</button>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-6'>
+          <button type="sumbit" class='btn btn-success' id='save' disabled='true'>
+            S A V E
+          </button>
+        </div>
+        <div class='col-md-6'>
+          <button type="button" class='btn btn-danger' id='reset' disabled='true'>R E S E T</button>
+        </div>
+      </div>
+      <hr>
+      <div class='row'>
+        <div class='col-md-12'>
+          Timer<br>
+            <div class="input-row input-group">
+              <input type="text" id='Hours' aria-label="Hours" class="form-control" placeholder="Hours">
+              <input type="text" id='Minutes' aria-label="Minutes" class="form-control" placeholder="Minutes">
+              <input type="text" id='Seconds' aria-label="Seconds" class="form-control" placeholder="Seconds">
+            </div>
+            <div class="row">
+              <div class='col-md-6'>
+                <button class="btn btn-primary" id='timeSet'>S E T</button>
+              </div>
+              <div class='col-md-6'>
+                <button class="btn btn-danger" id='timeReset' disabled='true'>R E S E T</button>
+              </div>
+            </div>
+          <br>Remain<br>
+          <h1>
+            <span id="hour">0</span>
+            <span> : </span>
+            <span id="minute">0</span>
+            <span> : </span>
+            <span id="second">0</span>
+          </h1>
+        </div>
+      </div>
+      <hr>
+      <div class='row'>
+        <div class='col-md-12'>
+          <button class="btn btn-primary" id='history'>Show History</button>
+        </div>
+      </div>
+      <div class='footer'>
+        <div class="col-md-12">
+          &copy; 
+        </div>
+      </div>
+    </div> <!-- End Sidebar  -->
+
+    <!-- Main Contents -->
+    <div class='container-md myContainer'>
+      <div class="row text-log"> 
+        <div class='col-md-6' id="pingLog">
+          <li class="list-group-item list-group-item-dark"><span>Ping</span></li>
+          <div class='ping_textLog'>
+            <ul id="ping_textLog_list" class='list-group'>
+              <!-- ping log -->
+            </ul>
+          </div> <!-- END ping_textLog -->
+        </div> <!-- END pingLog -->
+
+        <div class='col-md-6' id="trLog">
+          <li class="list-group-item list-group-item-dark"><span>TraceRouter</span></li>
+          <div class='tr_log'>
+            <ul id="trLog_list" class='list-group'>
+              <!-- traceroute log -->
+            </ul>
+          </div>
+        </div> <!-- END trLog  -->
+      </div> <!-- END row  -->
+
+      <div class='row'>
+        <div class="col-md-12">
+          <li class="list-group-item list-group-item-dark"><span>Ping Graph</span></li>
+          <div class='ping_graphLog'>
+            <canvas id="myChart"></canvas>
+          </div> <!-- END ping_graphLog -->
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <script src="/javascripts/index.js"></script>
+</html>

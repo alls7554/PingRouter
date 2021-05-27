@@ -1,10 +1,10 @@
-let time, hour, minute, second, myTimer;
+let hour, minute, second;
 
 timeSet = () => {
 
-  let hour = $('#Hours').val();
-      minute = $('#Minutes').val();
-      second = $('#Seconds').val();
+  hour = $('#Hours').val();
+  minute = $('#Minutes').val();
+  second = $('#Seconds').val();
 
   if(hour == '' && minute == '' && second == '') return;
 

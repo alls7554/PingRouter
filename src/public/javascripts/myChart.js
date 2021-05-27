@@ -30,6 +30,7 @@ let options = {
       }]
   },
   options: {
+    aspectRatio: 2.3,
     scales: {
       y: {
         beginAtZero: true

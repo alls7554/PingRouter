@@ -1,12 +1,14 @@
-const mongoose = require('mongoose');
+const mongoose = require('../config/mongoDB');
 
 const tracerouterlogSchema = new mongoose.Schema({
+  idx : { type: Number },
   session_id: { type: String },
+  target: { type: String },
   start_time: { type: String },
-  log: { type: Array}
+  log: { type: Array }
 });
 
-var TracerouterLogModel = mongoose.model('tracerouterlog', tracerouterlogSchema);
+let TracerouterLogModel = mongoose.model('tracerouterlog', tracerouterlogSchema);
 
 // Create
 tracerouterlogSchema.statics.create = (payload) => {

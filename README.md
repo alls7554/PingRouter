@@ -1,4 +1,4 @@
-# PingRouter (V 1.1.1)
+# PingRouter
 
 ### You must `npm install` after cloning.
 
@@ -72,4 +72,4 @@ V 1.1.0 (2021. 05. 12)
 
 V 1.1.1 (2021. 05. 12)
 
-- Pagination Login 수정
+- Pagination Logic 수정
