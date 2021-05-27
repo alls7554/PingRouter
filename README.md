@@ -14,6 +14,7 @@
       │
       ├── bin
       │    └── www.js                        - Node.js server 파일
+      │
       └── src
            ├── config/                       - 설정 파일을 모아둔 폴더
            │     ├── mongoDB.js              - mongoDB를 사용하기 위한 커넥트 파일
