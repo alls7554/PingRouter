@@ -1,10 +1,13 @@
 {
-  "name": "myapp",
+  "name": "pingrouter",
   "version": "0.0.0",
   "private": true,
+  "bin" : {
+    "pingrouter": "./bin/www" 
+  },
   "scripts": {
     "start": "nodemon ./bin/www",
-    "bulid": "pkg ."
+    "build": "pkg ."
   },
   "pkg":{
     "assets": ["views/**/*", "public/**/*"],
@@ -31,9 +34,6 @@
   },
   "description": "### You must `npm install` after cloning.",
   "main": "app.js",
-  "bin": {
-    "myapp": "www.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alls7554/PingRouter.git"
