@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "start prod" : "nodemon ./bin/www PRODUCTION"
+    "bulid": "pkg ."
+  },
+  "pkg":{
+    "assets": ["views/**/*", "public/**/*"],
+    "targets": ["node12-macos-x64"]
   },
   "dependencies": {
     "async": "^3.2.0",
