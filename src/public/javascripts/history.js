@@ -57,7 +57,7 @@ $('#search').on('propertychange change paste input', () => {
   let url = address;
   let spaceExp = new RegExp(/\s/g);
 
-  if(address == '' || spaceExp.exec(address) != null) {
+  if(address == '' || spaceExp.exec(address) == null) {
     url = '/history/search/all';
   } else{
     url = `/history/search/${address}`;

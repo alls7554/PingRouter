@@ -1,21 +1,41 @@
 
-const pingDBLog = require('../model/ping');
-const tracerouterDBLog = require('../model/tracerouter')
+const pingDBLog = require('../model/pingModel');
+const tracerouterDBLog = require('../model/tracerouterModel')
 
-const sqlite3 = require('../model/time');
+const time = require('../model/timeModel');
+const user = require('../model/userModel');
+
+// idx는 pk면서 autoIncrease
+// uuid는 unique Key
 const createTimeQuery = `
   CREATE TABLE time(
-    idx integer, 
-    session_id text,
+    idx integer primary key autoincrement,
+    uuid text unique,
     address text,
     start_time text,
     end_time text
   )
   `;
-const dropQuery = `
+const createUserQuery = `
+  CREATE TABLE user(
+    idx integer primary key autoincrement,
+    uuid text unique,
+    user_id text,
+    pwd text
+  )
+`;
+
+const dropTime = `
   drop TABLE time
 `;
 
-// sqlite3.reset(dropQuery, createTimeQuery)
+const dropUser = `
+  drop TABLE user
+`;
 
-module.exports = { pingDBLog, tracerouterDBLog, sqlite3 }
+// time.reset(dropTime);
+// time.init(createTimeQuery);
+// user.reset(dropUser);
+// user.init(createUserQuery);
+
+module.exports = { pingDBLog, tracerouterDBLog, time, user }

@@ -17,10 +17,6 @@ a {
 
 .container-md {
   padding-top: 50px !important;
-  height: 100% !important;
-}
-
-.myContainer {
   height: 100vh !important;
 }
 
@@ -29,7 +25,7 @@ a {
 }
 
 #side-bar {
-  width: 280px;
+  width: 350px;
   float: left;
 }
 
@@ -78,4 +74,8 @@ a {
   position: fixed;
   bottom: 20px;
   width: 100%;
+}
+
+#logout {
+  float: right;
 }

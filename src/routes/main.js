@@ -2,11 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controller/indexCont');
 
-/* GET home page. */
+/* GET main page. */
 router.get('/', controller.mainView);
-
-router.post('/login', controller.login);
-
-router.get('/logout', controller.logout);
 
 module.exports = router;

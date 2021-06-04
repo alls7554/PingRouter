@@ -2,38 +2,44 @@
   "name": "pingrouter",
   "version": "0.0.0",
   "private": true,
-  "bin" : {
-    "pingrouter": "./bin/www" 
+  "bin": {
+    "PingRouter": "./bin/www"
   },
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "export NODE_ENV=production && nodemon ./bin/www",
+    "start:dev": "export NODE_ENV=development && nodemon ./bin/www",
     "build": "pkg ."
   },
-  "pkg":{
-    "assets": ["views/**/*", "public/**/*"],
-    "targets": ["node12-macos-x64"]
+  "pkg": {
+    "targets": [
+      "node14-macos-x64"
+    ],
+    "assets": [
+      "views/*",
+      "public/**/*"
+    ]
   },
   "dependencies": {
-    "async": "^3.2.0",
-    "connect-sqlite3": "^0.9.11",
+    "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
-    "express-session": "^1.17.1",
-    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
     "mime": "^1.4.1",
     "moment": "^2.29.1",
     "mongoose": "^5.12.6",
     "morgan": "~1.9.1",
     "net-ping": "^1.2.3",
     "nodejs-traceroute": "^1.2.0",
+    "pkg": "^5.2.1",
     "socket.io": "^4.1.2",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "uuid": "^3.4.0"
   },
   "description": "### You must `npm install` after cloning.",
-  "main": "app.js",
+  "main": "./bin/www",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alls7554/PingRouter.git"
@@ -44,5 +50,9 @@
   "bugs": {
     "url": "https://github.com/alls7554/PingRouter/issues"
   },
-  "homepage": "https://github.com/alls7554/PingRouter#readme"
+  "homepage": "https://github.com/alls7554/PingRouter#readme",
+  "devDependencies": {
+    "@types/sqlite3": "^3.1.7",
+    "http-errors": "^1.6.3"
+  }
 }

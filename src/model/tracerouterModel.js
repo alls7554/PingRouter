@@ -2,7 +2,7 @@ const mongoose = require('../config/mongoDB');
 
 const tracerouterlogSchema = new mongoose.Schema({
   idx : { type: Number },
-  session_id: { type: String },
+  uuid: { type: String },
   target: { type: String },
   start_time: { type: String },
   log: { type: Array }
