@@ -11,11 +11,11 @@ router.get('/pages/:page', controller.paging);
 // date Filter
 router.get('/date/:period', controller.dateFilter);
 
-// date Filter + address search
-router.get('/date/:period/search/:address', controller.dateAndaddress);
-
 // address search
 router.get('/search/:address', controller.addressSearch);
+
+// date Filter + address search
+router.get('/date/:period/search/:address', controller.dateAndaddress);
 
 // specific log
 router.get('/select/:startTime', controller.specificLog);

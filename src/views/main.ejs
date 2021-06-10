@@ -30,7 +30,7 @@
       <div class="row">
         <h1><%= title %></h1>
         <div class="mb-3">
-          <span class="col">Welcome <%= nickname %></span>
+          <span class="col">Hello, <%= nickname %></span>
           <a id="logout" href='#'class="col text-primary">logout</a>
         </div>
       </div>
@@ -85,7 +85,7 @@
       <hr>
       <div class='row'>
         <div class='col-md-12'>
-          <button class="btn btn-primary" id='history'>Show History</button>
+          <button class="btn btn-primary" id='history'>History</button>
         </div>
       </div>
       <div class='footer'>
@@ -129,15 +129,5 @@
 
   </body>
   <script src="/javascripts/main.js"></script>
-  <script>
-    $('#logout').click(()=>{
-      $.ajax({
-        url: "/logout",
-        type: 'GET',
-        success: () => {
-          location.href = '/';
-        }
-      });
-    });
-  </script>
+  <script src="/javascripts/logout.js"></script>
 </html>

@@ -41,14 +41,16 @@ module.exports = (server) => {
 
     let sessionId = session_id.getSessionId(socket);
     let payload = jwt.checkJWT(sessionId);
-    
-    let data = await database.user.findMemberUUID(payload.user_id);
+    let user_id = payload.user_id
+    let data = await database.member.findById(user_id);
+
     let member_uuid = data.uuid;
-    data = await database.time.findOne(`SELECT COUNT(idx) as idx FROM time WHERE uuid = '${member_uuid}'`);
 
     let time = {
-      startTime : '',
-      endTime : ''
+      uuid : member_uuid,
+      address : '',
+      start_time : '',
+      end_time : ''
     }
 
     let sessions = ping.createSession(options);
@@ -61,23 +63,22 @@ module.exports = (server) => {
         summarypingLog;
 
     socket.on('start', (address) => {
-      
-      time.startTime = moment().format();
+
+      time.address = address;
+      time.start_time = moment().format();
       ping_check_bool = true, tr_check_bool = true;
       data.idx += 1;
-      myapp.to(socket.id).emit('STARTTIME', time.startTime);
+      myapp.to(socket.id).emit('STARTTIME', time.start_time);
 
       summarypingLog = deepCopy(rtt);
       pingdblog = logFrame(member_uuid, 'ping');
       tracerouterdblog = logFrame(member_uuid, 'tracerouter');
 
-      pingdblog.idx = data.idx,
-      pingdblog.target = address,
-      pingdblog.start_time = time.startTime;
+      pingdblog.address = address,
+      pingdblog.start_time = time.start_time;
 
-      tracerouterdblog.idx = data.idx,
-      tracerouterdblog.target = address,
-      tracerouterdblog.start_time = time.startTime;
+      tracerouterdblog.address = address,
+      tracerouterdblog.start_time = time.start_time;
 
       // summarypingLog = pingTest.summaryPing();
       // pingdblog = pingTest.pingLog(sessionId, data[0].idx, time.startTime, address);
@@ -136,12 +137,13 @@ module.exports = (server) => {
           .on('close', (code) => {
             tr_check_bool = false;
             if(!ping_check_bool){
-              time.endTime = moment().format();
-              let sql = `INSERT INTO time (uuid, address, start_time, end_time) VALUES ('${member_uuid}', '${address}', '${time.startTime}', '${time.endTime}')`;
-              database.time.save(sql);
+              time.end_time = moment().format();
+              database.time.create(time);
             }
             tracerouterdblog.log.push(code);
-            database.tracerouterDBLog.create(tracerouterdblog);
+
+            database.tracerouter.create(tracerouterdblog);
+
             tracerouterdblog = logFrame(member_uuid, 'tracerouter');
             myapp.to(socket.id).emit('trClose', code);
           });
@@ -153,7 +155,7 @@ module.exports = (server) => {
 
     });
 
-    socket.on('stop', (address) => {
+    socket.on('stop', () => {
 
       clearTimeout(testStart);
 
@@ -172,12 +174,13 @@ module.exports = (server) => {
 
       pingdblog.summaryLog = obj;
 
-      database.pingDBLog.create(pingdblog);
+      database.ping.create(pingdblog);
+
+      database.ping.create(pingdblog);
 
       if(!tr_check_bool){
-        time.endTime = moment().format();
-        let sql = `INSERT INTO time (uuid, address, start_time, end_time) VALUES ('${member_uuid}', '${address}', '${time.startTime}', '${time.endTime}')`;
-        database.time.save(sql);
+        time.end_time = moment().format();
+        database.time.create(time);
       }
     });
 

@@ -5,20 +5,22 @@ const encrypt = require('../lib/encryption');
 const jwt = require('../lib/jwt');
 
 exports.login = async (loginData) => {
-  let user = await database.user.findUser(loginData.user_id);
-  console.log(user)
-  if(user.length) {
-    let compareResult = await encrypt.pwdCompare(loginData.user_pwd, user[0].pwd);
+
+  let user_id = loginData.user_id
+
+  let user = await database.member.findById(user_id);
+  if(process.env.NODE_ENV === 'development')
+    console.log(user);
+
+  if(user != null) {
+    let compareResult = await encrypt.pwdCompare(loginData.user_pwd, user.pwd);
 
     if(compareResult) {
-      let token = jwt.createJWT(user[0].user_id);
+      let token = jwt.createJWT(user.user_id);
 
       return token;
     }
-    else {
-      return false;
-    }
-  } else {
-    return false;
   }
+
+  return false;
 }

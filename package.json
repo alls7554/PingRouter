@@ -7,35 +7,37 @@
   },
   "scripts": {
     "start": "export NODE_ENV=production && nodemon ./bin/www",
-    "start:dev": "export NODE_ENV=development && nodemon ./bin/www",
-    "build": "pkg ."
+    "dev": "export NODE_ENV=development && nodemon ./bin/www",
+    "build": "pkg .",
+    "build -d": "pkg -d ."
   },
   "pkg": {
-    "targets": [
-      "node14-macos-x64"
-    ],
+    "scripts": "routes/**/*.js",
     "assets": [
       "views/*",
       "public/**/*"
+    ],
+    "targets": [
+      "node14-macos-x64"
     ]
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "dotenv": "^8.2.0",
-    "ejs": "~2.6.1",
+    "dotenv": "^8.6.0",
+    "ejs": "^3.1.6",
     "express": "~4.16.1",
     "jsonwebtoken": "^8.5.1",
     "mime": "^1.4.1",
     "moment": "^2.29.1",
     "mongoose": "^5.12.6",
+    "mongoose-auto-increment": "^5.0.1",
+    "mongoose-sequence": "^5.3.1",
     "morgan": "~1.9.1",
     "net-ping": "^1.2.3",
     "nodejs-traceroute": "^1.2.0",
-    "pkg": "^5.2.1",
     "socket.io": "^4.1.2",
-    "sqlite3": "^5.0.2",
     "uuid": "^3.4.0"
   },
   "description": "### You must `npm install` after cloning.",
@@ -52,7 +54,6 @@
   },
   "homepage": "https://github.com/alls7554/PingRouter#readme",
   "devDependencies": {
-    "@types/sqlite3": "^3.1.7",
     "http-errors": "^1.6.3"
   }
 }

@@ -9,19 +9,19 @@ exports.mainView = (req, res) => {
   if(token) {
     let payload = jwt.checkJWT(token);
     if(payload){
-      res.render('main', { title: 'PingRouter', nickname: payload.user_id});
+      res.render('main', { title: 'PingRouter', nickname: payload.user_id });
     } else{
       res.status(403).json({ msg: 'forbidden' });
       next(payload)
     }
   } else {
-    res.render('index', { title: 'PingRouter'});
+    res.render('index', {title: 'PingRouter'})
   }
 }
 
 exports.login = async (req, res) => {
 
-  let loginData = req.body
+  let loginData = req.body;
 
   let token = await user.login(loginData);
 
@@ -40,5 +40,9 @@ exports.logout = (req, res) => {
   if(req.cookies['x-auth']) {
     res.clearCookie('x-auth', {path:'/'});
   }
-  res.render('index', { title: 'PingRouter'});
+  res.render('index', {title: 'PingRouter'});
+}
+
+exports.register = (req, res) => {
+  res.sendFile(process.cwd(), "../views/register.ejs");
 }

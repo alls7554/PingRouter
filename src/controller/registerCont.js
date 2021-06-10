@@ -19,16 +19,19 @@ exports.mainView = (req, res) => {
       next(err)
     }
   } else {
-    res.render('register', { title: 'PingRouter - Sign up'});
+    res.render('register', { title: 'PingRouter' });
   }
 }
 
 exports.id_check = async (req, res) => {
   let user_id = req.params.id;
 
-  let rows = await database.user.findById(user_id);
+  let rows = await database.member.findById(user_id);
 
-  if(rows.length) {
+  if(process.env.NODE_ENV === 'development')
+    console.log(rows)
+
+  if(rows != null) {
     res.send({available:'NO'});
   } else {
     res.send({available:'YES'});
@@ -37,14 +40,20 @@ exports.id_check = async (req, res) => {
 
 exports.regist = async(req, res) => {
 
-  let user = {id:req.body.id, pwd:req.body.pwd, uuid:v4()}
-  let rows = await database.user.findById(user.id);
+  let user = {};
 
-  if(!rows.length && user.pwd.length < 6) {
+  user.user_id = req.body.id,
+  user.pwd = req.body.pwd,
+  user.uuid = v4();
+
+  let user_id = user.user_id;
+  let rows = await database.member.findById(user_id);
+
+  if(rows != null && user.pwd.length < 6) {
     res.send({available:'NO'});
   } else {
     user.pwd = await encrypt.pwdEncoder(user.pwd);
-    database.user.save(user);
-    res.send({success:'done'})
+    database.member.create(user);
+    res.send({success:'done'});
   }
 }

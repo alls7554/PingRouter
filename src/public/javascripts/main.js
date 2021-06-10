@@ -37,7 +37,7 @@ $('#start').click(() => {
 
       if(time < 0){
         clearInterval(myTimer);
-        myapp.emit('stop', $('#Address').val());
+        myapp.emit('stop');
         $('#stop').attr('disabled', true);
         totalTime = false;
         if(!trOn){

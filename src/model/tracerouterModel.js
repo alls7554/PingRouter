@@ -1,25 +1,27 @@
 const mongoose = require('../config/mongoDB');
+const AutoIncrement = require('../lib/auto-id-setter');
 
-const tracerouterlogSchema = new mongoose.Schema({
+const tracerouterLogSchema = new mongoose.Schema({
   idx : { type: Number },
-  uuid: { type: String },
-  target: { type: String },
+  uuid: { type: String, required: true },
+  address: { type: String },
   start_time: { type: String },
   log: { type: Array }
 });
 
-let TracerouterLogModel = mongoose.model('tracerouterlog', tracerouterlogSchema);
+AutoIncrement(tracerouterLogSchema, mongoose, 'tracerouterLog', 'idx');
 
-// Create
-tracerouterlogSchema.statics.create = (payload) => {
-  const log = new TracerouterLogModel(payload);
-  console.log('Save On MongoDB')  
-  return log.save();
+let tracerouterLogModel = mongoose.model('tracerouterlog', tracerouterLogSchema);
+
+let create = (payload) => {
+  let data = new tracerouterLogModel(payload);
+  data.save(() => {
+    console.log('Save On TraceRouter');
+  });
 }
 
-// Read
-tracerouterlogSchema.statics.findOneBystartTime = async (start_time) => {
-  return await TracerouterLogModel.find({'start_time': start_time});
+let findBystartTime = async (startTime) => {
+  return await tracerouterLogModel.findOne({'start_time': startTime});
 }
 
-module.exports = mongoose.model('TraceRouterDBLog', tracerouterlogSchema);
+module.exports = { tracerouterLogModel, create, findBystartTime }

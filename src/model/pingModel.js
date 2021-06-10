@@ -1,27 +1,28 @@
 const mongoose = require('../config/mongoDB');
+const AutoIncrement = require('../lib/auto-id-setter');
 
-const pinglogSchema = new mongoose.Schema({
+const pingLogSchema = new mongoose.Schema({
   idx : { type: Number },
-  uuid: { type: String },
-  target: { type: String },
+  uuid: { type: String, required: true},
+  address: { type: String },
   start_time: { type: String },
   log: { type: Array },
   summaryLog : { type: Object }
 });
 
-let Pinglogmodel = mongoose.model('pinglog', pinglogSchema);
+AutoIncrement(pingLogSchema, mongoose, 'pingLog', 'idx');
 
-// Create
-pinglogSchema.statics.create = (payload) => {
-  const log = new Pinglogmodel(payload);
+let pingLogModel = mongoose.model('pingLog', pingLogSchema);
 
-  console.log('Save On MongoDB')
-  return log.save();
+let create = (payload) => {
+  let data = new pingLogModel(payload);
+  data.save(() => {
+    console.log('Save On Ping');
+  });
 }
 
-// Read
-pinglogSchema.statics.findOneBystartTime = async (start_time) => {
-  return await Pinglogmodel.find({'start_time' : start_time});
+let findBystartTime = async (startTime) => {
+  return await pingLogModel.findOne({'start_time': startTime});
 }
 
-module.exports = mongoose.model('PingDBLog', pinglogSchema);
+module.exports = { pingLogModel, create, findBystartTime }
