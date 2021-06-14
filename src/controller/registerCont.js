@@ -2,26 +2,8 @@
 
 const database = require('../services/database');
 const encrypt = require('../lib/encryption');
-const jwt = require('../lib/jwt')
+const jwt = require('../lib/jwt');
 const { v4 } = require('uuid');
-
-exports.mainView = (req, res) => {
-  
-  let token = req.cookies['x-auth'];
-  
-  if(token) {
-    let payload = jwt.checkJWT(token);
-    if(payload){
-      res.render('main', { title: 'PingRouter', nickname: payload.user_id});
-    }
-    else{
-      res.status(403).json({ msg: 'forbidden' });
-      next(err)
-    }
-  } else {
-    res.render('register', { title: 'PingRouter' });
-  }
-}
 
 exports.id_check = async (req, res) => {
   let user_id = req.params.id;

@@ -15,10 +15,12 @@ let timeLogModel = mongoose.model('timeLog', timeLogSchema);
 
 // Create
 let create = (payload) => {
-  const log = new timeLogModel(payload);
-
-  console.log('Save On Time');
-  return log.save();
+  const data = new timeLogModel(payload);
+  
+  return data.save(() => {
+    if(process.env.NODE_ENV === 'development')
+      console.log('Save On Time');
+  });
 }
 
 // Read
@@ -54,8 +56,8 @@ let findFilterAddress = async (uuid, search) => {
   return await timeLogModel.find({uuid : uuid, address : new RegExp('^'+search, 'i')});
 }
 
-let findFilterAddressAndPeriod = async (uuid, address, period ) => {
-  return await timeLogModel.find({uuid : uuid, address : new RegExp('^'+search, 'i')}).where();
+let findFilterAddressAndPeriod = async (uuid, search, period ) => {
+  return await timeLogModel.find({uuid : uuid, address : new RegExp('^'+search, 'i')}).where('start_time').lt(period);
 }
 
-module.exports = { timeLogModel, create, findAll, findPaging, findFilterPeriod, findFilterAddress};
+module.exports = { timeLogModel, create, findAll, findPaging, findFilterPeriod, findFilterAddress, findFilterAddressAndPeriod};

@@ -1,2 +1,2 @@
-document.cookie = `user=;max-age=-1;`;
+document.cookie = `x-a=;max-age=-1;`;
 location.hert = '/';

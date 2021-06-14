@@ -16,7 +16,8 @@ let tracerouterLogModel = mongoose.model('tracerouterlog', tracerouterLogSchema)
 let create = (payload) => {
   let data = new tracerouterLogModel(payload);
   data.save(() => {
-    console.log('Save On TraceRouter');
+    if(process.env.NODE_ENV === 'development')
+      console.log('Save On TraceRouter');
   });
 }
 

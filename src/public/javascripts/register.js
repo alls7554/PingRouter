@@ -4,7 +4,7 @@ $('#sign_up').on('click', () => {
     type: 'GET',
     success: (data) => {
 
-      $('#sub_title').text(` - Sign up`);
+      $('#title').append(` - Sign up`);
 
       $("#content").html(data);
     }

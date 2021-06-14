@@ -6,8 +6,8 @@
     "PingRouter": "./bin/www"
   },
   "scripts": {
-    "start": "export NODE_ENV=production && nodemon ./bin/www",
-    "dev": "export NODE_ENV=development && nodemon ./bin/www",
+    "start": "export NODE_ENV=development && nodemon ./bin/www",
+    "prod": "export NODE_ENV=production && nodemon ./bin/www",
     "build": "pkg .",
     "build -d": "pkg -d ."
   },
@@ -28,6 +28,7 @@
     "dotenv": "^8.6.0",
     "ejs": "^3.1.6",
     "express": "~4.16.1",
+    "ip": "^1.1.5",
     "jsonwebtoken": "^8.5.1",
     "mime": "^1.4.1",
     "moment": "^2.29.1",

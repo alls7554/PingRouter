@@ -32,8 +32,8 @@ $(document).on('click', '.page-item', (obj) => {
 $(periods).click((obj)=>{
   let address = $('#search').val();
   let url = '';
-  let period = obj.currentTarget.id
-  dateFilter = period;
+  let period = obj.currentTarget.id;
+
 
   if(address == '') url = `/history/date/${period}`
   else url = `/history/date/${period}/search/${address}`
@@ -166,7 +166,6 @@ replaceTimeString = (timeString) => {
 
 loadData = (data) => {
   $('.log').remove();
-  
   if(data.rows.length){
     for(let i=0; i<data.log_num; i++){
       if(i == (data.rows.length)) break;
@@ -176,7 +175,7 @@ loadData = (data) => {
       let endTime = replaceTimeString(data.rows[i].end_time);
 
       $('#contents').append(`<tr class='log'> 
-                              <td>${data.rows[i].idx}</td> 
+                              <td>${(data.page-1)*data.log_num+(i+1)}</td> 
                               <td>${data.rows[i].address}</td> 
                               <td><span class='startTime'>${startTime}</span><br><span>${endTime}</span></td> 
                             </tr>`);

@@ -35,6 +35,10 @@
       <div class="row">
         <h1><%= title %></h1>
         <div class="mb-3">
+          <div class="mb-3 row justify-content-center text-white">
+            <span>My Ip Address : <%=user_ip%></span>
+          </div>
+          <hr>
           <span class="col">Hello, <%= nickname %></span>
           <a id="logout" href='#'class="col text-primary">logout</a>
         </div>
@@ -90,7 +94,7 @@
                     <% startTime = data[i].start_time.replace(/\+09:00|T/g, ' ') %>
                     <% endTime = data[i].end_time.replace(/\+09:00|T/g, ' ') %>
                     <tr class="log">
-                      <td><%= data[i].idx %></td> <td><%=data[i].address%></td> <td><span class='startTime'><%=startTime%></span><br><span><%=endTime%></span></td>
+                      <td> <%= i+1 %> </td> <td><%=data[i].address%></td> <td><span class='startTime'><%=startTime%></span><br><span><%=endTime%></span></td>
                     </tr> 
                   <% } %>
                 <% } %>

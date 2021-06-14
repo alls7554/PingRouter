@@ -11,14 +11,17 @@
 </head>
 <body>
   <div class="container-md col-4">
-
   </div>
-  <div id='side-bar' class="d-flex flex-column p-3 bg-dark">
+  <div id='side-bar' class="d-flex flex-column p-3 bg-dark" style="z-index: 9999;">
     <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <svg class="bi me-2" width="40" height="32">
         <use xlink:href="#bootstrap"/>
       </svg>
-      <a href=""><span class="fs-4"><%= title %></span></a> <span class="fs-4" id="sub_title">&nbsp;</span>
+      <a href="" class="text-white text-decoration-none"><span id="title" class="fs-4"><%= title %></span></a>
+    </div>
+    <hr class="text-white">
+    <div class="row justify-content-center text-white">
+      <span>My Ip Address : <%=user_ip%></span>
     </div>
     <hr class="text-white">
     <div id="content">
@@ -38,10 +41,7 @@
         </div>
 
         <div class="row">
-          <div class="col-6">
-            <a href="#" class="align-middle"> forgot passward? </a>
-          </div>
-          <div class="offset-1 col-5 mt-3">
+          <div class="offset-7 col-5 mt-3">
             <button type="button" class="btn btn-primary" id="sign_in">Sign In</button>
           </div>
         </div>

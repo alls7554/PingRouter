@@ -32,19 +32,16 @@ module.exports = (server) => {
     max : 0,
   }
 
-  let run;
-  let testStart;
-  
   let myapp = io.on('connection', async (socket) => {
 
-    console.log('user connect');
+    if(process.env.NODE_ENV === 'development')
+      console.log('user connect');
 
+    let run;
+    let testStart;
     let sessionId = session_id.getSessionId(socket);
     let payload = jwt.checkJWT(sessionId);
-    let user_id = payload.user_id
-    let data = await database.member.findById(user_id);
-
-    let member_uuid = data.uuid;
+    let member_uuid = payload.uuid;
 
     let time = {
       uuid : member_uuid,
@@ -176,8 +173,6 @@ module.exports = (server) => {
 
       database.ping.create(pingdblog);
 
-      database.ping.create(pingdblog);
-
       if(!tr_check_bool){
         time.end_time = moment().format();
         database.time.create(time);
@@ -186,7 +181,8 @@ module.exports = (server) => {
 
     socket.on('disconnect', () => {
       clearTimeout(testStart);
-      console.log('User Disconnect');
+      if(process.env.NODE_ENV === 'development')
+        console.log('User Disconnect');
     })
   });
 

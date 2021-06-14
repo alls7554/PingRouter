@@ -16,7 +16,8 @@ let memberLogModel = mongoose.model('memberLog', memberLogSchema);
 let create = (payload) => {
   let data = new memberLogModel(payload);
   data.save(() => {
-    console.log('Save On Member');
+    if(process.env.NODE_ENV === 'development')
+      console.log('Save On Member');
   });
 }
 

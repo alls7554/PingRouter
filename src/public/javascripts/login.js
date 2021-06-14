@@ -13,7 +13,7 @@ $('#sign_in').on('click', () => {
         $('#floatingPassword').val('');
       }
     },
-    success: (data) => {
+    success: () => {
       location.href = '/main';
     }
   });

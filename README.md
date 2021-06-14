@@ -17,22 +17,29 @@
       │
       └── src
            ├── config/                       - 설정 파일을 모아둔 폴더
-           │     ├── mongoDB.js              - mongoDB를 사용하기 위한 커넥트 파일
-           │     └── timeDB.js               - sqlite3를 사용하기 위한 커넥트 파일
+           │     └── mongoDB.js              - mongoDB를 사용하기 위한 커넥트 파일
            │
            ├── controller/                   - Controller를 모아둔 폴더
-           │     ├── indexCont.js            - 메인 페이지에서 클라이언트와 소통을 위한 controller
+           │     ├── indexCont.js            - 첫 페이지에서 클라이언트와 소통을 위한 controller
+           │     ├── registerCont.js         - 회원가입 페이지에서 클라이언트와 소통을 위한 controller
+           │     ├── mainCont.js             - 로그인 이후 메인 페이지에서 클라이언트와 소통을 위한 controller
            │     └── historyCont.js          - history페이지에서 클라이언트와 소통을 위한 controller
            │
            ├── lib/                          - 서버단에서 이용하는 특정 기능을 가지고 있는 파일을 모아둔 폴더
+           │     ├── auto-id-setter.js       - Database idx 필드 auto increment를 위한 js 파일
+           │     ├── dateCalc.js             - History 페이지의 Date Filter에 사용하기 위한 js 파일
+           │     ├── encryption.js           - 비밀번호를 DB저장하기 전 암호화를 하기 위한 js 파일
+           │     ├── getIPAddress.js         - 현재 접속 중인 IP 주소를 얻기 위한 js 파일
+           │     ├── jwt.js                  - jwt를 발급하고 검증하는 js 파일
            │     ├── deepCopy.js             - 깊은 복사를 위한 js 파일
            │     ├── getSessionId.js         - socket통신 시 세션 ID를 얻기 위한 js 파일
            │     └── logFrame.js             - DB에 저장할 object를 return하는 js 파일
            │
            ├── model/                        - DB연산에 사용되는 파일을 모아둔 폴더
-           │     ├── ping.js                 - ping 기록을 저장하고 불러오는 js 파일 (mongoDB)
-           │     ├── time.js                 - 테스트의 시작과 끝 시간을 저장하고 불러오는 js 파일(sqlite3)
-           │     └── tracerouter.js          - tracerouter 기록을 저장하고 불러오는 js 파일 (mongoDB)
+           │     ├── memberModel.js          - 유저의 정보를 저장하고 불러오는 js 파일
+           │     ├── timeModel.js            - 테스트의 시작과 끝 시간을 저장하고 불러오는 js 파일
+           │     ├── pingModel.js            - ping 기록을 저장하고 불러오는 js 파일
+           │     └── tracerouterModel.js     - tracerouter 기록을 저장하고 불러오는 js 파일
            │
            ├── public/                       - css, javascript등 static파일이 모여 있는 폴더
            │     ├── stylesheets/            - stylesheet를 모아둔 폴더
@@ -48,31 +55,48 @@
            │     │        ├── ping.js        - ping 테스트 기록을 DataBase(MongoDB)에 담기 위한 Schema와 데이터 저장, 찾기 기능을 담은 javascript
            │     │        └── tracerouter.js - tracerouter 테스트 기록을 DataBase(MongoDB)에 담기 위한 Schema와 데이터 저장, 찾기 기능을 담은 javascript
            │     │
-           │     └── bootstrap/              - bootstrap의 추가 기능을 사용하기 위한 파일이 모여 있는 폴더
+           │     ├── bootstrap/              - bootstrap의 추가 기능과 UI를 사용하기 위한 파일이 모여 있는 폴더(이하 폴더 설명 생략...)
+           │     │        ├── css/
+           │     │        └── js/
+           │     │
+           │     └── images/                 - 이미지를 모아둔 폴더(파일 설명 생략...)
            │
            ├── routes/                       - 라우팅 폴더
-           │     ├── index.js                - 메인 페이지의 라우팅
+           │     ├── index.js                - 로그인 페이지의 라우팅
+           │     ├── register.js             - 회원가입 페이지의 라우팅
+           │     ├── main.js                 - 로그인 후 메인 페이지의 라우팅
            │     └── history.js              - History 페이지의 라우팅
            │
            ├── services/                     - 특정 행위들을 하나로 취합한 파일을 모아둔 폴더
            │     ├── database.js             - model 폴더의 파일들을 하나로 취합시킨 database.js 파일
+           │     ├── login.js                - 로그인 기능을 가지고 있는 js vkdlf
            │     └── socket.io.js            - socket통신에 사용되는 function을 하나로 모아둔 js 파일
            │
            └── views/                        - view 폴더
-                 ├── index.ejs               - 메인 페이지
+                 ├── index.ejs               - 로그인 페이지
+                 ├── register.ejs            - 회원가입 페이지(로그인 페이지에서 AJAX로 불러오기)
+                 ├── main.ejs                - 메인 페이지
                  ├── history.ejs             - History 페이지
                  └── error.ejs               - 에러 페이지
 ```
 
 ### 2. screen
 
-#### 2-1. Main Screen
+#### 2-1. Login Screen
 
-![MainScreen](https://user-images.githubusercontent.com/51731660/117908710-e143ce80-b313-11eb-807d-6e0a20aeabb0.png)
+![LoginScreen](https://user-images.githubusercontent.com/51731660/121849633-88a68d80-cd26-11eb-8aca-be326a454032.png)
 
-#### 2-2. History Screen
+#### 2-2. Register Screen
 
-![HistoryScreen](https://user-images.githubusercontent.com/51731660/117909001-66c77e80-b314-11eb-8612-209385633c80.png)
+![RegisterScreen](https://user-images.githubusercontent.com/51731660/121849717-aecc2d80-cd26-11eb-9951-97e3243c3aa9.png)
+
+#### 2-3. Main Screen
+
+![MainScreen](https://user-images.githubusercontent.com/51731660/121849893-e935ca80-cd26-11eb-9e2b-6582571aa560.png)
+
+#### 2-4. History Screen
+
+![HistoryScreen](https://user-images.githubusercontent.com/51731660/121850057-2a2ddf00-cd27-11eb-8705-d4497a9873c6.png)
 
 ## 3. How to Use
 
@@ -103,3 +127,16 @@
 (2021. 05. 27)
 
 - Code Refactoring
+
+(2021. 06. 14)
+
+- Change DataBase
+
+  - Change the Member and Time table using sqlite to MongoDB
+
+- IP Address
+
+  - You can check the IP address you have accessed on all screens.
+
+- Chart Design
+  - You can also check the average speed in the graph.

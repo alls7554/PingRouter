@@ -2,14 +2,19 @@
 
 const jwt = require('jsonwebtoken');
 
-const MY_SECRET_KEY = SECRET_KEY;
+const MY_SECRET_KEY = process.env.SECRET_KEY;
 
-exports.createJWT = (user_id) => {
+exports.createJWT = (user_id, uuid) => {
   return jwt.sign(
     {
-      user_id: user_id
+      user_id: user_id,
+      uuid: uuid 
     }, MY_SECRET_KEY
     );
+}
+
+exports.getJWT = (req) => {
+  return req.cookies['x-auth'];
 }
 
 exports.checkJWT = (token) => {

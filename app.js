@@ -9,7 +9,7 @@ const createError = require('http-errors');
 const path = require('path');
 
 const cookieParser = require('cookie-parser');
-const ejs = require('ejs')
+const ejs = require('ejs');
 
 // app setting
 if(process.env.NODE_ENV === 'development'){
@@ -18,13 +18,12 @@ if(process.env.NODE_ENV === 'development'){
 }
 
 let staticPath = path.join(process.cwd(), 'myapp/src');
-
 // view engine setup
 if(process.env.NODE_ENV === 'production'){
   app.use(express.static(path.join(staticPath, 'public')));
   app.set('views', path.join(staticPath, 'views'));
 }
-if(process.env.NODE_ENV === 'development'){
+if(process.env.NODE_ENV !== 'production'){
   app.use(express.static(path.join(__dirname, 'src/public')));
   app.set('views', path.join(__dirname, 'src/views'));
 }

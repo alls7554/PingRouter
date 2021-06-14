@@ -13,6 +13,9 @@ sessions
 # Excel file
 *.xlsx
 
+# Exec file
+pingrouter
+
 #package-lock
 package-lock.json
 

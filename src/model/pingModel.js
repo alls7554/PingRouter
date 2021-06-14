@@ -17,7 +17,8 @@ let pingLogModel = mongoose.model('pingLog', pingLogSchema);
 let create = (payload) => {
   let data = new pingLogModel(payload);
   data.save(() => {
-    console.log('Save On Ping');
+    if(process.env.NODE_ENV === 'development')
+      console.log('Save On Ping');
   });
 }
 
