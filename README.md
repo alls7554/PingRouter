@@ -48,11 +48,15 @@
            │     ├── javascripts/            - javascript를 모아둔 폴더
            │     │        ├── disabled.js    - 각 상황에 버튼을 비활성화 시키는 기능을 담은 javascript
            │     │        ├── download.js    - 테스트 기록을 엑셀 파일로 만드는 기능을 담은 javascript
+           │     │        ├── history.js     - History 페이지에서의 여러 기능을 담은 javascript
            │     │        ├── loading.js     - 로딩화면을 보여주고 사라지게 하는 기능을 담은 javascript
+           │     │        ├── login.js       - 로그인 시 입력 값 검사와 로그인 성공시 Main 페이지로 이동하는 기능을 담은 javascript
+           │     │        ├── logout.js      - 로그아웃 시 일련의 작업 후 로그인 페이지로 이동하는 기능을 담은 javascript
+           │     │        ├── main.js        - Main 페이지에서의 여러 기능을 담은 javascript
            │     │        ├── myChart.js     - 테스트를 차트로 나타내기 위한 옵션과 기능을 담은 javascript
            │     │        ├── myTimer.js     - 타이머와 관련된 기능을 담은 javascript
-           │     │        ├── ping.js        - ping 테스트 기록을 DataBase(MongoDB)에 담기 위한 Schema와 데이터 저장, 찾기 기능을 담은 javascript
-           │     │        └── tracerouter.js - tracerouter 테스트 기록을 DataBase(MongoDB)에 담기 위한 Schema와 데이터 저장, 찾기 기능을 담은 javascript
+           │     │        ├── register.js    - 로그인 페이지에서 회원가입 페이지로 변경하는 AJAX 통신을 하는 javacsript
+           │     │        └── removeJWT.js   - 로그아웃시 토큰을 제거하는 기능을 담은javascript
            │     │
            │     ├── bootstrap/              - bootstrap의 추가 기능과 UI를 사용하기 위한 파일이 모여 있는 폴더(이하 폴더 설명 생략...)
            │     │        ├── css/
