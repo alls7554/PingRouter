@@ -1,8 +1,7 @@
 # PingRouter
 
-### You must `npm install` after cloning.
-
-### 1. Structure of directory
+<details>
+<summary> 1. Structure of directory </summary>
 
 ```bash
 └─ PingRouter
@@ -80,7 +79,10 @@
                  └── error.ejs               - 에러 페이지
 ```
 
-### 2. screen
+</details>
+
+<details>
+<summary> 2. ScreenShot </summary>
 
 #### 2-1. Login Screen
 
@@ -97,6 +99,8 @@
 #### 2-4. History Screen
 
 ![HistoryScreen](https://user-images.githubusercontent.com/51731660/121850057-2a2ddf00-cd27-11eb-8705-d4497a9873c6.png)
+
+</details>
 
 ## 3. How to Use
 
