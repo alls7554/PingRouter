@@ -9,9 +9,6 @@ exports.login = async (loginData) => {
   let user_id = loginData.user_id
 
   let user = await database.member.findById(user_id);
-  
-  if(process.env.NODE_ENV === 'development')
-    console.log(user);
 
   if(user != null) {
     let compareResult = await encrypt.pwdCompare(loginData.user_pwd, user.pwd);
