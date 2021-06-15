@@ -64,7 +64,6 @@ module.exports = (server) => {
       time.address = address;
       time.start_time = moment().format();
       ping_check_bool = true, tr_check_bool = true;
-      data.idx += 1;
       myapp.to(socket.id).emit('STARTTIME', time.start_time);
 
       summarypingLog = deepCopy(rtt);
@@ -76,12 +75,6 @@ module.exports = (server) => {
 
       tracerouterdblog.address = address,
       tracerouterdblog.start_time = time.start_time;
-
-      // summarypingLog = pingTest.summaryPing();
-      // pingdblog = pingTest.pingLog(sessionId, data[0].idx, time.startTime, address);
-      // tracerouterdblog = traceRouter.traceRouterLog(sessionId, data[0].idx, time.startTime);
-      // pingTest.testStart;
-      // traceRouter.traceRouter(address);
 
       testStart = setTimeout(run = () => {
         sessions.pingHost(address, (error, address, sent, rcvd) => {

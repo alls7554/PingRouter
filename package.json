@@ -17,6 +17,9 @@
     "assets": [
       "views/*",
       "public/**/*"
+    ],
+    "targets": [
+      "node14-macos-x64", "node14-win-x86"
     ]
   },
   "dependencies": {
