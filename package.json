@@ -19,7 +19,8 @@
       "public/**/*"
     ],
     "targets": [
-      "node14-macos-x64", "node14-win-x86"
+      "node14-macos-x64",
+      "node14-win-x86"
     ]
   },
   "dependencies": {
@@ -38,7 +39,6 @@
     "morgan": "~1.9.1",
     "net-ping": "^1.2.3",
     "nodejs-traceroute": "^1.2.0",
-    "npm": "^7.17.0",
     "socket.io": "^4.1.2",
     "uuid": "^3.4.0"
   },
