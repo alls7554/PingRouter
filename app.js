@@ -3,7 +3,7 @@ process.env.NODE_ENV = ( process.env.NODE_ENV && ( process.env.NODE_ENV ).trim()
 console.log(process.env.NODE_ENV)
 
 const express = require('express');
-const app = express();
+const exp = express();
 const dotenv = require('dotenv').config();
 const createError = require('http-errors');
 const path = require('path');
@@ -14,50 +14,50 @@ const ejs = require('ejs');
 // app setting
 if(process.env.NODE_ENV === 'development'){
   const logger = require('morgan');
-  app.use(logger('dev'));
+  exp.use(logger('dev'));
 }
 
 let staticPath = path.join(process.cwd(), 'myapp/src');
 // view engine setup
 if(process.env.NODE_ENV === 'production'){
-  app.use(express.static(path.join(staticPath, 'public')));
-  app.set('views', path.join(staticPath, 'views'));
+  exp.use(express.static(path.join(staticPath, 'public')));
+  exp.set('views', path.join(staticPath, 'views'));
 }
 if(process.env.NODE_ENV !== 'production'){
-  app.use(express.static(path.join(__dirname, 'src/public')));
-  app.set('views', path.join(__dirname, 'src/views'));
+  exp.use(express.static(path.join(__dirname, 'src/public')));
+  exp.set('views', path.join(__dirname, 'src/views'));
 }
-app.set('view engine', 'ejs');
+exp.set('view engine', 'ejs');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+exp.use(express.json());
+exp.use(express.urlencoded({ extended: true }));
+exp.use(cookieParser());
 
 // router
 const indexRouter = require('./src/routes/index');
 const registerRouter = require('./src/routes/register');
 const mainRouter = require('./src/routes/main');
 const historyRouter = require('./src/routes/history');
-app.use('/', indexRouter);
-app.use('/register', registerRouter);
-app.use('/main', mainRouter);
-app.use('/history', historyRouter);
+exp.use('/', indexRouter);
+exp.use('/register', registerRouter);
+exp.use('/main', mainRouter);
+exp.use('/history', historyRouter);
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
+exp.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use((err, req, res, next) => {
+exp.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   console.log(err.message)
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.exp.get('env') === 'development' ? err : {};
   // console.log(req)
   // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
 
-module.exports = app;
+module.exports = exp;

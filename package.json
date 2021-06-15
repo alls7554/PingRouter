@@ -9,16 +9,14 @@
     "start": "export NODE_ENV=development && nodemon ./bin/www",
     "prod": "export NODE_ENV=production && nodemon ./bin/www",
     "build": "pkg .",
-    "build -d": "pkg -d ."
+    "build -d": "pkg -d .",
+    "elec": "electron ."
   },
   "pkg": {
     "scripts": "routes/**/*.js",
     "assets": [
       "views/*",
       "public/**/*"
-    ],
-    "targets": [
-      "node14-macos-x64"
     ]
   },
   "dependencies": {
@@ -38,11 +36,12 @@
     "morgan": "~1.9.1",
     "net-ping": "^1.2.3",
     "nodejs-traceroute": "^1.2.0",
+    "npm": "^7.17.0",
     "socket.io": "^4.1.2",
     "uuid": "^3.4.0"
   },
   "description": "### You must `npm install` after cloning.",
-  "main": "./bin/www",
+  "main": "electron.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alls7554/PingRouter.git"
@@ -55,6 +54,7 @@
   },
   "homepage": "https://github.com/alls7554/PingRouter#readme",
   "devDependencies": {
+    "electron": "^13.1.2",
     "http-errors": "^1.6.3"
   }
 }

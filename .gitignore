@@ -14,7 +14,7 @@ sessions
 *.xlsx
 
 # Exec file
-pingrouter
+pingrouter*
 
 #package-lock
 package-lock.json

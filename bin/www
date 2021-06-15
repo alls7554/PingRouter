@@ -1,7 +1,7 @@
 'use strict';
 
-const app = require('../app');
-const server = require('http').createServer(app);
+const exp = require('../app');
+const server = require('http').createServer(exp);
 const io = require('../src/services/socket.io')(server);
 const PORT = process.env.PORT || 3000;
 

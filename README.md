@@ -7,7 +7,7 @@
 └─ PingRouter
       │
       ├── README.md                          - root 리드미 파일
-      ├── app.js                             - server setting
+      ├── exp.js                             - server setting
       ├── package.json                       - 해당 프로젝트의 정보와 사용된 모듈이 담긴 파일
       ├── .gitignore                         - 일부 파일 및 폴더를 git에 올리지 않기 위해 작성한 파일
       │

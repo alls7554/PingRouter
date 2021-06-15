@@ -20,7 +20,6 @@ exports.mainView = async (req, res) => {
 
       if(uuid){
         let rows = await database.time.findAll(uuid);
-        totalCount = rows.length;
 
         if(rows.length) {
           let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
@@ -32,7 +31,6 @@ exports.mainView = async (req, res) => {
             page_num: page_num, 
             log_num: dataPerPage, 
             nickname: user_id,
-            totalCount: totalCount,
             user_ip: user_ip
           });
         } else {
@@ -42,7 +40,6 @@ exports.mainView = async (req, res) => {
             page_num: 0, 
             log_num: dataPerPage, 
             nickname: user_id,
-            totalCount: 0,
             user_ip: user_ip
           });
         }
