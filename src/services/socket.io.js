@@ -142,11 +142,8 @@ module.exports = (server) => {
 
               tracerouterdblog = logFrame('tracerouter');
               myapp.to(socket.id).emit('trClose', code);
+              tracer.trace();
             }
-          }).on('start', () => {
-              if(tr_check_bool){
-                tracer.trace();
-              }  
           });
 
         tracer.trace();

@@ -6,7 +6,8 @@ const isNotEmpty = require('../lib/isNotEmpty');
 
 let create = (payload) => {
   try{
-    db.fs.writeFileSync(path.join(db.timeDBPath, payload.start_time), JSON.stringify(payload));
+    let title = payload.start_time.replace(/:/g, '-');
+    db.fs.writeFileSync(path.join(db.timeDBPath, title), JSON.stringify(payload));
     if(process.env.NODE_ENV !== 'production')
       console.log('Save On Time');
   } catch (error) {

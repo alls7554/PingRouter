@@ -3,7 +3,8 @@ const path = require('path');
 
 let create = (payload) => {
   try {
-    db.fs.writeFileSync(path.join(db.pingDBPath, payload.start_time), JSON.stringify(payload));
+    let title = payload.start_time.replace(/:/g, '-');
+    db.fs.writeFileSync(path.join(db.pingDBPath, title), JSON.stringify(payload));
     if(process.env.NODE_ENV !== 'production')
       console.log('Save On Ping')
   } catch (error) {
@@ -14,7 +15,8 @@ let create = (payload) => {
 let findBystartTime = (startTime) => {
 
   try {
-    let data = db.fs.readFileSync(path.join(db.pingDBPath, startTime), 'utf8')
+    let title = startTime.replace(/:/g, '-');
+    let data = db.fs.readFileSync(path.join(db.pingDBPath, title), 'utf8');
     let result = [];
     
     result.push(JSON.parse(data));

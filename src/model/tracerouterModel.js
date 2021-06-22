@@ -3,24 +3,26 @@ const path = require('path');
 
 let create = (payload) => {
   try {
-    let title = payload.idx +'_'+ payload.start_time;
+    let title = payload.idx +'_'+ payload.start_time.replace(/:/g, '-');
     db.fs.writeFileSync(path.join(db.tracerouterDBPath, title), JSON.stringify(payload));
     if(process.env.NODE_ENV !== 'production')
       console.log('Save On TraceRouter');
   } catch (error) {
+    console.log(error);
   }
 }
 
 let findBystartTime = (startTime) => {
   try {
     let result = [];
-
+    let searchTitle = startTime.replace(/:/g, '-');
     let fileList = db.fs.readdirSync(db.tracerouterDBPath, 'utf8');
     
     fileList.forEach(file => {
       let title = file.split('_');
+
       try {
-        if(title[1] === startTime) {
+        if(title[1] === searchTitle) {
           let data = db.fs.readFileSync(path.join(db.tracerouterDBPath, file), 'utf8')
           result.push(JSON.parse(data));
         }

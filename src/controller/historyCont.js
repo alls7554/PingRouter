@@ -11,7 +11,7 @@ exports.mainView = (req, res) => {
   let rows = database.time.findAll();
   let user_ip = ip.getIP(req);
 
-  if(rows) {
+  if(rows.length) {
     let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
     if(rows.length % dataPerPage > 0) page_num++;
     res.status(200).render('history', { 
@@ -58,7 +58,7 @@ exports.paging = (req, res) => {
 
   rows = database.time.findPaging(dataPerPage, (page-1)*dataPerPage, page, address, period);
 
-  if(rows) {
+  if(rows.lenght) {
     let page_num = parseInt(rows.fileList.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
     if(rows.fileList.length%dataPerPage > 0) page_num+=1;
 
@@ -100,7 +100,7 @@ exports.dateAndaddress = (req, res) => {
 
   let rows = database.time.findFilterAddressAndPeriod(address, period);
 
-  if(rows) {
+  if(rows.length) {
     let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
     if(rows.length%dataPerPage > 0) page_num+=1;
 
@@ -118,7 +118,7 @@ exports.addressSearch = (req, res) => {
     rows = database.time.findAll();
   }
 
-  if(rows) {
+  if(rows.length) {
     let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
     if(rows.length%dataPerPage > 0) page_num+=1;
 
