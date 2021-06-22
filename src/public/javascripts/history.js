@@ -30,13 +30,12 @@ $(document).on('click', '.page-item', (obj) => {
 
 // Date Filter
 $(periods).click((obj)=>{
-  let address = $('#search').val();
+  address = $('#search').val();
   let url = '';
-  let period = obj.currentTarget.id;
+  dateFilter = obj.currentTarget.id;
 
-
-  if(address == '') url = `/history/date/${period}`
-  else url = `/history/date/${period}/search/${address}`
+  if(address == '') url = `/history/date/${dateFilter}`
+  else url = `/history/date/${dateFilter}/search/${address}`
 
   $.ajax({
     type: 'GET',
@@ -100,26 +99,27 @@ $(document).on("click", ".log", (timeline) => {
       myChart.update('reset');
       resetData(myChart);
 
-      startTime = replaceTimeString(data.pingLog.start_time);
+      startTime = replaceTimeString(data.pingLog[0].start_time);
 
-      $('#address').text(`Address : ${data.pingLog.address}`);
+      $('#address').text(`Address : ${data.pingLog[0].address}`);
       $('#startTime').text(`StartTime : ${startTime}`);
 
-      let i = 0, j = 0;
-      for(; j<data.tracerouterLog.log.length-1; j++){
-        $('#trLog_list').append(`<li class='list-group-item trLog'><span>${data.tracerouterLog.log[j].hop} ${data.tracerouterLog.log[j].ip} ${data.tracerouterLog.log[j].rtt1}</span></li>`);
+      for(let i = 0; i<data.tracerouterLog.length; i++){
+        for(let j = 0; j<data.tracerouterLog[i].log.length-1; j++){
+          $('#trLog_list').append(`<li class='list-group-item trLog'><span>${data.tracerouterLog[i].log[j].hop} ${data.tracerouterLog[i].log[j].ip} ${data.tracerouterLog[i].log[j].rtt1}</span></li>`);
+        }
+        code = data.tracerouterLog[i].log[data.tracerouterLog[i].log.length-1];
+        $('#trLog_list').append(`<li class='list-group-item list-group-item-success trLog'><span>Close: ${code}</span></li>`);
       }
-      code = data.tracerouterLog.log[j];
-      $('#trLog_list').append(`<li class='list-group-item trLog'><span>Close: ${code}</span></li>`);
       
 
-      for(; i < data.pingLog.log.length; i++){
-        $('#ping_textLog_list').append(`<li class='list-group-item pingLog'><span>${data.pingLog.address}: icmp_seq=${data.pingLog.log[i].icmp_seq} time=${data.pingLog.log[i].time}ms</span></li>`);
+      for(let i = 0; i < data.pingLog[0].log.length; i++){
+        $('#ping_textLog_list').append(`<li class='list-group-item pingLog'><span>${data.pingLog[0].address}: icmp_seq=${data.pingLog[0].log[i].icmp_seq} time=${data.pingLog[0].log[i].time}ms</span></li>`);
       }
 
       $('#ping_textLog_list').append(`<li class='list-group-item list-group-item-success pingResultLog'><span>--- ping statistics ---</span></li>`);
-      $('#ping_textLog_list').append(`<li class='list-group-item pingResultLog'><span>${data.pingLog.summaryLog.cnt} packets transmitted, ${data.pingLog.summaryLog.cnt} packets received</span></li>`);
-      $("#ping_textLog_list").append(`<li class='list-group-item pingResultLog'><span>round-trip min/avg/max = ${data.pingLog.summaryLog.min}/${data.pingLog.summaryLog.avg}/${data.pingLog.summaryLog.max} (ms)</span></li>`);
+      $('#ping_textLog_list').append(`<li class='list-group-item pingResultLog'><span>${data.pingLog[0].summaryLog.cnt} packets transmitted, ${data.pingLog[0].summaryLog.cnt} packets received</span></li>`);
+      $("#ping_textLog_list").append(`<li class='list-group-item pingResultLog'><span>round-trip min/avg/max = ${data.pingLog[0].summaryLog.min}/${data.pingLog[0].summaryLog.avg}/${data.pingLog[0].summaryLog.max} (ms)</span></li>`);
       let pinglogs = doc.getElementsByClassName('pingLog');
 
       let idx = 0, sum = 0;

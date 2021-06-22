@@ -5,10 +5,8 @@ module.exports = (server) => {
 
   const moment = require('moment');
 
-  const session_id = require('../lib/getSessionId');
   const logFrame = require('../lib/logFrame');
   const deepCopy = require('../lib/deepCopy');
-  const jwt = require('../lib/jwt');
 
   const database = require('./database');
 
@@ -39,12 +37,8 @@ module.exports = (server) => {
 
     let run;
     let testStart;
-    let sessionId = session_id.getSessionId(socket);
-    let payload = jwt.checkJWT(sessionId);
-    let member_uuid = payload.uuid;
 
     let time = {
-      uuid : member_uuid,
       address : '',
       start_time : '',
       end_time : ''
@@ -63,18 +57,17 @@ module.exports = (server) => {
 
       time.address = address;
       time.start_time = moment().format();
-      ping_check_bool = true, tr_check_bool = true;
-      myapp.to(socket.id).emit('STARTTIME', time.start_time);
-
+      ping_check_bool = true; tr_check_bool = true;
+      
       summarypingLog = deepCopy(rtt);
-      pingdblog = logFrame(member_uuid, 'ping');
-      tracerouterdblog = logFrame(member_uuid, 'tracerouter');
-
+      pingdblog = logFrame('ping');
+      tracerouterdblog = logFrame('tracerouter');
+      
       pingdblog.address = address,
       pingdblog.start_time = time.start_time;
 
-      tracerouterdblog.address = address,
-      tracerouterdblog.start_time = time.start_time;
+
+      myapp.to(socket.id).emit('STARTTIME', time.start_time);
 
       testStart = setTimeout(run = () => {
         sessions.pingHost(address, (error, address, sent, rcvd) => {
@@ -112,33 +105,51 @@ module.exports = (server) => {
       }, 1000);
 
       try {
-        const tracer = new Traceroute();
+        let tracer = new Traceroute(address);
+        let idx = 0;
         tracer
           .on('pid', (pid) => {
+            tracerouterdblog.address = address,
+            tracerouterdblog.start_time = time.start_time;
             console.log(`pid: ${pid}`);
           })
           .on('destination', (destination) => {
-            myapp.to(socket.id).emit('trDestination', destination);
+            if(tr_check_bool){
+              myapp.to(socket.id).emit('trDestination', destination);
+            }
           })
           .on('hop', (hop) => {
-            tracerouterdblog.log.push(hop);
-            myapp.to(socket.id).emit('trProcess', hop);
+            if(tr_check_bool) {
+              tracerouterdblog.log.push(hop);
+              myapp.to(socket.id).emit('trProcess', hop);
+            }
           })
           .on('close', (code) => {
-            tr_check_bool = false;
             if(!ping_check_bool){
               time.end_time = moment().format();
+              // time 데이터 저장하기
               database.time.create(time);
             }
-            tracerouterdblog.log.push(code);
+            
+            if(tr_check_bool){
+              tracerouterdblog.log.push(code);
+              tracerouterdblog.idx = idx;
 
-            database.tracerouter.create(tracerouterdblog);
+              //tracerouter 데이터 저장하기
+              database.tracerouter.create(tracerouterdblog);
+              
+              idx+=1;
 
-            tracerouterdblog = logFrame(member_uuid, 'tracerouter');
-            myapp.to(socket.id).emit('trClose', code);
+              tracerouterdblog = logFrame('tracerouter');
+              myapp.to(socket.id).emit('trClose', code);
+            }
+          }).on('start', () => {
+              if(tr_check_bool){
+                tracer.trace();
+              }  
           });
 
-        tracer.trace(address);
+        tracer.trace();
       } catch (ex) {
         console.log(ex);
       }
@@ -149,7 +160,7 @@ module.exports = (server) => {
 
       clearTimeout(testStart);
 
-      ping_check_bool = false;
+      ping_check_bool = false, tr_check_bool = false;
 
       summarypingLog.avg = (summarypingLog.avg/summarypingLog.cnt).toFixed(3); 
 
@@ -164,16 +175,19 @@ module.exports = (server) => {
 
       pingdblog.summaryLog = obj;
 
+      // ping 데이터 저장하기
       database.ping.create(pingdblog);
 
       if(!tr_check_bool){
         time.end_time = moment().format();
+        // 시간 데이터 저장하기
         database.time.create(time);
       }
     });
 
     socket.on('disconnect', () => {
       clearTimeout(testStart);
+      ping_check_bool = false, tr_check_bool = false;
       if(process.env.NODE_ENV === 'development')
         console.log('User Disconnect');
     })

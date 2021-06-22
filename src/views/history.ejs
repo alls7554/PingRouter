@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.js"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
@@ -39,8 +39,6 @@
             <span>My Ip Address : <%=user_ip%></span>
           </div>
           <hr>
-          <span class="col">Hello, <%= nickname %></span>
-          <a id="logout" href='#'class="col text-primary">logout</a>
         </div>
       </div>
       <div class='footer'>
@@ -88,8 +86,8 @@
                 <% if(locals.data){ %>
                   <% for(let i=0; i<log_num; i++){ %>
                     <% if(i == data.length) break %>
-                    <% startTime = data[i].start_time.replace(/\+09:00|T/g, ' ') %>
-                    <% endTime = data[i].end_time.replace(/\+09:00|T/g, ' ') %>
+                    <% startTime = data[i].start_time.replace(/'|\+09:00|T|,/g, ' ') %>
+                    <% endTime = data[i].end_time.replace(/'|\+09:00|T/g, ' ') %>
                     <tr class="log">
                       <td> <%= i+1 %> </td> <td><%=data[i].address%></td> <td><span class='startTime'><%=startTime%></span><br><span><%=endTime%></span></td>
                     </tr> 
@@ -154,5 +152,4 @@
 
   </body>
   <script src="/javascripts/history.js"></script>
-  <script src="/javascripts/logout.js"></script>
 </html>

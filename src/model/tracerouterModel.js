@@ -1,28 +1,37 @@
-const mongoose = require('../config/mongoDB');
-const AutoIncrement = require('../lib/auto-id-setter');
-
-const tracerouterLogSchema = new mongoose.Schema({
-  idx : { type: Number },
-  uuid: { type: String, required: true },
-  address: { type: String },
-  start_time: { type: String },
-  log: { type: Array }
-});
-
-AutoIncrement(tracerouterLogSchema, mongoose, 'tracerouterLog', 'idx');
-
-let tracerouterLogModel = mongoose.model('tracerouterlog', tracerouterLogSchema);
+const db = require('../config/fileDB');
+const path = require('path');
 
 let create = (payload) => {
-  let data = new tracerouterLogModel(payload);
-  data.save(() => {
-    if(process.env.NODE_ENV === 'development')
+  try {
+    let title = payload.idx +'_'+ payload.start_time;
+    db.fs.writeFileSync(path.join(db.tracerouterDBPath, title), JSON.stringify(payload));
+    if(process.env.NODE_ENV !== 'production')
       console.log('Save On TraceRouter');
-  });
+  } catch (error) {
+  }
 }
 
-let findBystartTime = async (startTime) => {
-  return await tracerouterLogModel.findOne({'start_time': startTime});
+let findBystartTime = (startTime) => {
+  try {
+    let result = [];
+
+    let fileList = db.fs.readdirSync(db.tracerouterDBPath, 'utf8');
+    
+    fileList.forEach(file => {
+      let title = file.split('_');
+      try {
+        if(title[1] === startTime) {
+          let data = db.fs.readFileSync(path.join(db.tracerouterDBPath, file), 'utf8')
+          result.push(JSON.parse(data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-module.exports = { tracerouterLogModel, create, findBystartTime }
+module.exports = { create, findBystartTime }

@@ -1,245 +1,141 @@
 'use strict'
 
-const jwt = require('../lib/jwt');
-const database = require('../services/database');
 const dateCalc = require('../lib/dateCalc');
 const ip = require('../lib/getIPAddress');
+const database = require('../services/database');
+const isNotEmpty = require('../lib/isNotEmpty');
 const dataPerPage = 10;
-let totalCount;
 
-exports.mainView = async (req, res) => {
-  let token = jwt.getJWT(req);
-  let user_ip = ip.getIP(req);
+exports.mainView = (req, res) => {
   
-  if(token) {
-    let payload = jwt.checkJWT(token);
+  let rows = database.time.findAll();
+  let user_ip = ip.getIP(req);
 
-    if(payload){
-      let user_id = payload.user_id;
-      let uuid = payload.uuid;
-
-      if(uuid){
-        let rows = await database.time.findAll(uuid);
-
-        if(rows.length) {
-          let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
-          if(rows.length % dataPerPage > 0) page_num++;
-          res.status(200).render('history', { 
-            title: 'PingRouter', 
-            data: rows, 
-            page: 1, 
-            page_num: page_num, 
-            log_num: dataPerPage, 
-            nickname: user_id,
-            user_ip: user_ip
-          });
-        } else {
-          res.status(200).render('history', { 
-            title: 'PingRouter', 
-            page: 0, 
-            page_num: 0, 
-            log_num: dataPerPage, 
-            nickname: user_id,
-            user_ip: user_ip
-          });
-        }
-      } else {
-        res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
-      }
-    } else {
-      res.status(403).send();
-    }
+  if(rows) {
+    let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
+    if(rows.length % dataPerPage > 0) page_num++;
+    res.status(200).render('history', { 
+      title: 'PingRouter', 
+      data: rows, 
+      page: 1, 
+      page_num: page_num, 
+      log_num: dataPerPage, 
+      user_ip: user_ip
+    });
   } else {
-      res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
+    res.status(200).render('history', { 
+      title: 'PingRouter', 
+      page: 0,
+      page_num: 0,
+      log_num: dataPerPage,
+      user_ip: user_ip
+    });
   }
 }
 
-exports.paging = async (req, res) => {
-  let token = jwt.getJWT(req);
-  let user_ip = ip.getIP(req);
 
-  if(token){
-    let payload = jwt.checkJWT(token);
-    if(payload){
+exports.paging = (req, res) => {
 
-      let uuid = payload.uuid;
+  let page = req.params.page;
+  let period;
+  let address;
+  let rows;
 
-      if(uuid) {
-        let page = req.params.page;
-        let period;
-        let address;
-        let rows;
-  
-        if (!page && typeof page !== 'string' && !isNaN(page)){
-          res.status(404).send();
-        }
-  
-        if(req.query.address !== undefined) {
-          address = req.query.address;
-        }
-        if (req.query.dateFilter !== undefined ){
-          period = req.query.dateFilter;
-        }
-  
-        rows = await database.time.findPaging(uuid, dataPerPage, (page-1)*dataPerPage, address, period);
-  
-        if(rows) {
-  
-          let page_num = parseInt(totalCount/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
-          if(totalCount%dataPerPage > 0) page_num+=1;
-          
-          res.status(200).send({ rows: rows, totalData: totalCount, page_num: page_num, log_num: dataPerPage, page: page });
-        }
-      } else {
-        res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
-      }
-    } else {
-      res.status(403).send();
-    }
-  } else {
-      res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
+  if (!page && typeof page !== 'string' && !isNaN(page)){
+    res.status(404).send();
+  }
+
+  if(isNotEmpty.isNotEmpty(req.query.address)) {
+    address = req.query.address;
+  }
+  if (isNotEmpty.isNotEmpty(req.query.dateFilter)){
+    if(req.query.dateFilter === 'week')
+      period = dateCalc.lastWeek();
+
+    else if(req.query.dateFilter === 'month')
+      period = dateCalc.lastMonth();
+  }
+
+  rows = database.time.findPaging(dataPerPage, (page-1)*dataPerPage, page, address, period);
+
+  if(rows) {
+    let page_num = parseInt(rows.fileList.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
+    if(rows.fileList.length%dataPerPage > 0) page_num+=1;
+
+    res.status(200).send({ rows: rows.result, totalData: rows.fileList.length, page_num: page_num, log_num: dataPerPage, page: page });
   }
 }
 
-exports.dateFilter = async (req, res) => {
-  let token = jwt.getJWT(req);
-  let user_ip = ip.getIP(req);
-  if(token){
-    let payload = jwt.checkJWT(token);
+exports.dateFilter = (req, res) => {
+  
+  let rows;
 
-    if(payload){
-      let uuid = payload.uuid;
-      if(uuid) {
-        let rows;
-    
-        if(req.params.period == 'week') {
-          let week = dateCalc.lastWeek();
-          rows = await database.time.findFilterPeriod(uuid, dataPerPage, week);
-        } else if (req.params.period == 'month') {
-          let month = dateCalc.lastMonth();
-          rows = await database.time.findFilterPeriod(uuid, dataPerPage, month);
-        } else {
-          rows = await database.time.findAll(uuid);
-        }
-      
-        if(rows) {
-          let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
-          if(rows.length%dataPerPage > 0) page_num+=1;
-      
-          res.status(200).send({ rows:rows, page:1, page_num: page_num, log_num: dataPerPage });
-        }
-      } else {
-        res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
-      }
-    } else {
-        res.status(403).send();
-    } 
+  if(req.params.period == 'week') {
+    let week = dateCalc.lastWeek();
+    rows = database.time.findFilterPeriod(week);
+  } else if (req.params.period == 'month') {
+    let month = dateCalc.lastMonth();
+    rows = database.time.findFilterPeriod(month);
   } else {
-    res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
+    rows = database.time.findAll();
   }
 
-}
+  if(rows) {
+    let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
+    if(rows.length%dataPerPage > 0) page_num+=1;
 
-exports.dateAndaddress = async (req, res) => {
-  let token = jwt.getJWT(req);
-  let user_ip = ip.getIP(req);
-  if(token){
-    let payload = jwt.checkJWT(token);
-
-    if(payload){
-      let uuid = payload.uuid;
-      if(uuid){
-        let address = req.params.address,
-            period;
-
-
-        if(req.params.period == 'week') {
-          period = dateCalc.lastWeek();
-        } else if (req.params.period == 'month') {
-          period = dateCalc.lastMonth();
-        }
-      
-        let rows = await database.time.findFilterAddressAndPeriod(uuid, address, period);
-      
-        if(rows) {
-          let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
-          if(rows.length%dataPerPage > 0) page_num+=1;
-      
-          res.status(200).send({ rows:rows, page:1, page_num: page_num, log_num: dataPerPage });
-        }
-      } else {
-        res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
-      }
-    } else {
-      res.status(403).send();
-    }
-  } else {
-    res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
+    res.status(200).send({ rows:rows, page:1, page_num: page_num, log_num: dataPerPage });
   }
 }
 
-exports.addressSearch = async (req, res) => {
+exports.dateAndaddress = (req, res) => {
+  let address = req.params.address,
+      period;
 
-  let token = jwt.getJWT(req);
-  let user_ip = ip.getIP(req);
-  if(token){
-    let payload = jwt.checkJWT(token);
+  if(req.params.period == 'week') {
+    period = dateCalc.lastWeek();
+  } else if (req.params.period == 'month') {
+    period = dateCalc.lastMonth();
+  }
 
-    if(payload){
-      let uuid = payload.uuid;
-      if(uuid) {
-        let address = req.params.address 
-        let rows;
-        if(address != 'all'){
-          rows = await database.time.findFilterAddress(uuid, address);
-        } else {
-          rows = await database.time.findAll(uuid);
-        }
+  let rows = database.time.findFilterAddressAndPeriod(address, period);
 
-        
-        if(rows) {
-          let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
-          if(rows.length%dataPerPage > 0) page_num+=1;
-      
-          res.send({ rows:rows, page:1, page_num: page_num, log_num: dataPerPage });
-        }
-      } else {
-        res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
-      }
-    } else {
-      res.status(403).send();
-    }
-  } else {
-    res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
+  if(rows) {
+    let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
+    if(rows.length%dataPerPage > 0) page_num+=1;
 
+    res.status(200).send({ rows:rows, page:1, page_num: page_num, log_num: dataPerPage });
   }
 }
 
-exports.specificLog = async (req, res) => {
+exports.addressSearch = (req, res) => {
 
-  let token = jwt.getJWT(req);
-  let user_ip = ip.getIP(req);
-  if(token){
-    let payload = jwt.checkJWT(token);
-
-    if(payload){
-      let uuid = payload.uuid;
-      if(uuid) {
-        let temp = req.params.startTime.replace(/ /, 'T'),
-        startTime = temp+'+09:00';
-
-        let tracerouterLog = await database.tracerouter.findBystartTime(startTime);
-
-        let pingLog = await database.ping.findBystartTime(startTime);
-
-        res.send({pingLog, tracerouterLog});
-      } else {
-        res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
-      }
-    } else {
-      res.status(403).send();
-    }
+  let address = req.params.address 
+  let rows;
+  if(address != 'all'){
+    rows = database.time.findFilterAddress(address);
   } else {
-    res.status(403).render('index', { title: 'PingRouter', user_ip: user_ip});
+    rows = database.time.findAll();
   }
+
+  if(rows) {
+    let page_num = parseInt(rows.length/dataPerPage); // Page 수, (전체 데이터 수 / 페이지당 데이터 수)
+    if(rows.length%dataPerPage > 0) page_num+=1;
+
+    res.status(200).send({ rows:rows, page:1, page_num: page_num, log_num: dataPerPage });
+  }
+} 
+
+
+exports.specificLog = (req, res) => {
+
+  let temp = req.params.startTime.replace(/ /, 'T'),
+  startTime = temp+'+09:00';
+  
+  let pingLog = database.ping.findBystartTime(startTime);
+
+  let tracerouterLog = database.tracerouter.findBystartTime(startTime);
+
+  res.status(200).send({pingLog, tracerouterLog});
+
 }

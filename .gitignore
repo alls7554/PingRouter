@@ -1,27 +1,21 @@
 # DS_Store
 .DS_Store
 
-# .env
-.env
-
 # .vscode/
 .vscode/
-
-# sessions
-sessions
 
 # Excel file
 *.xlsx
 
 # Exec file
 pingrouter*
+www*
 
 #package-lock
 package-lock.json
 
 #Database
 data/
-sqlite3/
 
 # Logs
 logs

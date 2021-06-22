@@ -1,7 +1,6 @@
-logFrame = (uuid, kind) => {
+logFrame = (kind) => {
   if(kind === 'ping') {
     return {
-      uuid: uuid,
       address: '',
       start_time: '',
       log: [],
@@ -9,7 +8,7 @@ logFrame = (uuid, kind) => {
     }
   } else if(kind === 'tracerouter') {
     return {
-      uuid: uuid,
+      idx: '',
       address: '',
       start_time: '',
       log: [],

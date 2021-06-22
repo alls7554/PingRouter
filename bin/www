@@ -6,7 +6,7 @@ const io = require('../src/services/socket.io')(server);
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
-  console.log(`Express server has started on port ${PORT}`);
+  console.log(`Server has started on port ${PORT}`);
 });
 
 module.exports = server

@@ -1,6 +1,8 @@
 'use strict';
 process.env.NODE_ENV = ( process.env.NODE_ENV && ( process.env.NODE_ENV ).trim().toLowerCase() == 'development' ) ? 'development' : 'production';
-console.log(process.env.NODE_ENV)
+
+if(process.env.NODE_ENV !== 'production')
+  console.log(process.env.NODE_ENV);
 
 const express = require('express');
 const exp = express();
@@ -17,7 +19,7 @@ if(process.env.NODE_ENV === 'development'){
   exp.use(logger('dev'));
 }
 
-let staticPath = path.join(process.cwd(), 'myapp/src');
+let staticPath = path.join(process.cwd(), 'pingrouter/src');
 // view engine setup
 if(process.env.NODE_ENV === 'production'){
   exp.use(express.static(path.join(staticPath, 'public')));
@@ -34,13 +36,9 @@ exp.use(express.urlencoded({ extended: true }));
 exp.use(cookieParser());
 
 // router
-const indexRouter = require('./src/routes/index');
-const registerRouter = require('./src/routes/register');
 const mainRouter = require('./src/routes/main');
 const historyRouter = require('./src/routes/history');
-exp.use('/', indexRouter);
-exp.use('/register', registerRouter);
-exp.use('/main', mainRouter);
+exp.use('/', mainRouter);
 exp.use('/history', historyRouter);
 
 // catch 404 and forward to error handler
