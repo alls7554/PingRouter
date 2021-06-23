@@ -19,16 +19,9 @@ if(process.env.NODE_ENV === 'development'){
   exp.use(logger('dev'));
 }
 
-let staticPath = path.join(process.cwd(), 'pingrouter/src');
 // view engine setup
-if(process.env.NODE_ENV === 'production'){
-  exp.use(express.static(path.join(staticPath, 'public')));
-  exp.set('views', path.join(staticPath, 'views'));
-}
-if(process.env.NODE_ENV !== 'production'){
-  exp.use(express.static(path.join(__dirname, 'src/public')));
-  exp.set('views', path.join(__dirname, 'src/views'));
-}
+exp.use(express.static(path.join(__dirname, 'src/public')));
+exp.set('views', path.join(__dirname, 'src/views'));
 exp.set('view engine', 'ejs');
 
 exp.use(express.json());
